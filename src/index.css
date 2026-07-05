@@ -1,0 +1,270 @@
+/* DO NOT CHANGE */
+@import "tailwindcss";
+@import "tw-animate-css";
+@custom-variant dark (&:is(.dark *));
+
+/* DO NOT CHANGE */
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* NEUBRUTALISM MINIMALISM THEME */
+:root {
+  --radius: 0px;
+  --background: oklch(0.98 0 0);
+  --foreground: oklch(0.1 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.1 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.1 0 0);
+  --primary: oklch(0.1 0 0);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.92 0 0);
+  --secondary-foreground: oklch(0.1 0 0);
+  --muted: oklch(0.94 0 0);
+  --muted-foreground: oklch(0.45 0 0);
+  --accent: oklch(0.9 0 0);
+  --accent-foreground: oklch(0.1 0 0);
+  --destructive: oklch(0.6 0.24 25);
+  --border: oklch(0.1 0 0);
+  --input: oklch(0.1 0 0);
+  --ring: oklch(0.1 0 0);
+  --chart-1: oklch(0.6 0.22 41);
+  --chart-2: oklch(0.55 0.12 185);
+  --chart-3: oklch(0.35 0.07 227);
+  --chart-4: oklch(0.75 0.19 84);
+  --chart-5: oklch(0.7 0.19 70);
+  --sidebar: oklch(0.98 0 0);
+  --sidebar-foreground: oklch(0.1 0 0);
+  --sidebar-primary: oklch(0.1 0 0);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.94 0 0);
+  --sidebar-accent-foreground: oklch(0.1 0 0);
+  --sidebar-border: oklch(0.1 0 0);
+  --sidebar-ring: oklch(0.1 0 0);
+}
+
+.dark {
+  --background: oklch(0.1 0 0);
+  --foreground: oklch(0.95 0 0);
+  --card: oklch(0.15 0 0);
+  --card-foreground: oklch(0.95 0 0);
+  --popover: oklch(0.15 0 0);
+  --popover-foreground: oklch(0.95 0 0);
+  --primary: oklch(0.92 0 0);
+  --primary-foreground: oklch(0.1 0 0);
+  --secondary: oklch(0.22 0 0);
+  --secondary-foreground: oklch(0.95 0 0);
+  --muted: oklch(0.22 0 0);
+  --muted-foreground: oklch(0.65 0 0);
+  --accent: oklch(0.22 0 0);
+  --accent-foreground: oklch(0.95 0 0);
+  --destructive: oklch(0.65 0.19 22);
+  --border: oklch(0.95 0 0 / 15%);
+  --input: oklch(0.95 0 0 / 20%);
+  --ring: oklch(0.65 0 0);
+  --chart-1: oklch(0.45 0.24 264);
+  --chart-2: oklch(0.65 0.17 162);
+  --chart-3: oklch(0.7 0.19 70);
+  --chart-4: oklch(0.6 0.26 303);
+  --chart-5: oklch(0.6 0.24 16);
+  --sidebar: oklch(0.15 0 0);
+  --sidebar-foreground: oklch(0.95 0 0);
+  --sidebar-primary: oklch(0.92 0 0);
+  --sidebar-primary-foreground: oklch(0.1 0 0);
+  --sidebar-accent: oklch(0.22 0 0);
+  --sidebar-accent-foreground: oklch(0.95 0 0);
+  --sidebar-border: oklch(0.95 0 0 / 15%);
+  --sidebar-ring: oklch(0.65 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  button:not([disabled]),
+  [role="button"]:not([disabled]) {
+    cursor: pointer;
+  }
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--foreground);
+  border: 2px solid var(--background);
+}
+
+/* ScrollReveal component styles */
+.scroll-reveal {
+  margin: 0;
+}
+.scroll-reveal-text {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2em;
+}
+.scroll-reveal .word {
+  display: inline-block;
+}
+
+/* RotatingText component styles */
+.text-rotate {
+  display: inline-flex;
+  flex-wrap: wrap;
+  white-space: pre-wrap;
+  position: relative;
+}
+.text-rotate-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+.text-rotate-word {
+  display: inline-flex;
+}
+.text-rotate-lines {
+  display: flex;
+  flex-direction: column;
+}
+.text-rotate-element {
+  display: inline-block;
+}
+.text-rotate-space {
+  white-space: pre;
+}
+
+/* CircularText component styles */
+.circular-text {
+  position: relative;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.circular-text span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: center center;
+  line-height: 1;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+/* ScrollVelocity component styles */
+.parallax {
+  overflow: hidden;
+  white-space: nowrap;
+  flex-wrap: nowrap;
+  display: flex;
+  flex-shrink: 0;
+}
+.scroller {
+  display: flex;
+  white-space: nowrap;
+  flex-wrap: nowrap;
+}
+
+/* TextPressure component styles */
+.text-pressure-title {
+  font-family: 'Roboto Flex', sans-serif;
+  text-transform: uppercase;
+}
+
+
+/* Responsive safety */
+html,
+body,
+#root {
+  width: 100%;
+  min-width: 0;
+}
+
+html,
+body {
+  overflow-x: clip;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+input,
+textarea,
+select,
+button {
+  min-width: 0;
+}
+
+
+/* Order page sticky-scroll-reveal behavior */
+.frosty-order-builder {
+  overflow: visible;
+}
+
+.frosty-order-sticky {
+  position: sticky;
+  top: 7rem;
+  align-self: start;
+  z-index: 10;
+}
+
+@media (max-width: 767px) {
+  .frosty-order-sticky {
+    position: static;
+    top: auto;
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "Frosty Ice Cream",
+  "short_name": "Frosty",
+  "description": "Frosty ice cream website",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#FFF8E1",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "logo.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
