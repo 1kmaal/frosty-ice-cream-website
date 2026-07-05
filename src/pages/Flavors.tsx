@@ -489,44 +489,6 @@ function CardSwapShowcase() {
   );
 }
 
-function FlavorListSection() {
-  return (
-    <section className="border-b-4 border-black bg-white py-20 sm:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-12 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-          <div>
-            <span className="inline-flex border-2 border-black bg-black px-4 py-2 text-xs font-bold uppercase tracking-widest text-[#FFF8E1]">
-              Full Menu
-            </span>
-            <h2 className="mt-5 text-4xl font-black uppercase tracking-tighter text-black sm:text-5xl">
-              All Five Signatures
-            </h2>
-          </div>
-          <p className="max-w-lg text-base leading-relaxed text-black/60">
-            Same products from the homepage, now with a dedicated manual flavor showcase.
-          </p>
-        </div>
-
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-          {FLAVORS.map((flavor) => (
-            <div key={flavor.name} className="border-2 border-black p-5" style={{ backgroundColor: flavor.bgColor }}>
-              <div className="flex h-40 items-center justify-center" style={{ backgroundColor: `${flavor.color}14` }}>
-                <img src={flavor.image} alt={flavor.name} className="h-32 w-auto object-contain" draggable={false} />
-              </div>
-              <h3 className="mt-5 min-h-[52px] text-lg font-black uppercase leading-[1.05]" style={{ color: flavor.color }}>
-                {flavor.name}
-              </h3>
-              <p className="mt-2 text-[11px] font-bold uppercase tracking-wider" style={{ color: flavor.color, opacity: 0.65 }}>
-                {flavor.tagline}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function FlavorsFooter() {
   const navigate = useNavigate();
 
@@ -561,7 +523,6 @@ export default function Flavors() {
         className="border-b-4 border-black bg-black py-8 text-2xl font-black uppercase tracking-tighter text-[#FFF8E1] sm:text-3xl md:text-4xl"
         numCopies={4}
       />
-      <FlavorListSection />
       <FlavorsFooter />
     </motion.div>
   );

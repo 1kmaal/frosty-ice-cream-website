@@ -32,6 +32,18 @@ const convex = new ConvexReactClient(convexUrl);
 
 
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    });
+  }, [pathname]);
+
+  return null;
+}
+
 function RouteSyncer() {
   const location = useLocation();
   useEffect(() => {
@@ -149,6 +161,7 @@ createRoot(document.getElementById("root")!).render(
       <ConvexAuthProvider client={convex}>
         <BrowserRouter basename={import.meta.env.BASE_URL}>
           <RouteSyncer />
+          <ScrollToTop />
           <SiteNavbar />
           <FrostyNavTransition />
           <Routes>

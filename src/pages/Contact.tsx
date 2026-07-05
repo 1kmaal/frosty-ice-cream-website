@@ -128,7 +128,7 @@ function ContactForm() {
             Simple
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-black/65">
-            This page uses a clean Origin UI / shadcn-style form structure, restyled to match Frosty’s black borders and hard shadows.
+            Send us a note about orders, events, partnerships, or anything you want Frosty to help with.
           </p>
 
           <div className="mt-8 border-t-2 border-black/15 pt-5">

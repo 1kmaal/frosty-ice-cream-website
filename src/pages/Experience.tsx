@@ -555,7 +555,7 @@ function BentoExperienceSection() {
             </h2>
           </div>
           <p className="max-w-xl text-base leading-relaxed text-black/60">
-            A Magic UI-style bento layout, rebuilt to match Frosty's brutalist brand instead of looking like a generic template.
+            Every detail is built around texture, temperature, and that first perfect scoop.
           </p>
         </div>
 

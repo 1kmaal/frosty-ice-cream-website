@@ -530,7 +530,7 @@ export default function Order() {
                 </h2>
               </div>
               <p className="max-w-xl text-base leading-relaxed text-black/60">
-                shadcn-style quantity controls, Magic UI-style product cards, and a sticky checkout summary.
+                Choose your flavors, add specials, and build your box exactly how you want it.
               </p>
             </div>
 

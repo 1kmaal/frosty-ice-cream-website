@@ -379,7 +379,7 @@ function FilteredReviewsSection() {
             </h2>
           </div>
           <ScrollReveal containerClassName="max-w-xl" textClassName="text-base text-black/60 leading-relaxed">
-            Filter the review wall by flavor. The layout uses clean tabs and review cards instead of the homepage message section.
+            Filter reviews by flavor and see what people are loving most.
           </ScrollReveal>
         </div>
 
@@ -432,7 +432,7 @@ function RatingBreakdownSection() {
             Back It Up
           </h2>
           <p className="mt-5 max-w-lg text-base leading-relaxed text-black/60">
-            A simple shadcn-style progress breakdown, restyled with the same Frosty black-border system.
+            A quick look at what customers mention most when they talk about Frosty.
           </p>
         </div>
 

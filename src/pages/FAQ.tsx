@@ -245,7 +245,7 @@ function FAQAccordionSection() {
             Right Answer
           </h2>
           <ScrollReveal containerClassName="mt-5 max-w-lg" textClassName="text-base leading-relaxed text-black/60">
-            Built with a shadcn-style accordion, category filters, and Frosty’s brutalist black-border layout.
+            Clear answers about orders, delivery, ingredients, storage, and custom boxes.
           </ScrollReveal>
 
           <div className="mt-8 flex flex-wrap gap-3 lg:flex-col">

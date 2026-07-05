@@ -109,7 +109,7 @@ function SignupForm() {
               Fast Orders
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-black/65">
-              Clean shadcn-style form structure, Origin UI-style split layout, and Frosty’s black-border visual system.
+              Create your Frosty account to save favorites, speed up checkout, and keep your next order ready.
             </p>
 
             <div className="mt-8 grid gap-3">
