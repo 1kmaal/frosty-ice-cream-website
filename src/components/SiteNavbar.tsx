@@ -1,4 +1,4 @@
-import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
+import { AnimatePresence, LayoutGroup, motion, type Variants } from "framer-motion";
 import { IceCream } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router";
@@ -14,7 +14,7 @@ export default function SiteNavbar() {
   const activeTimerRef = useRef<number | null>(null);
   const switchTimerRef = useRef<number | null>(null);
 
-  const mobilePanelVariants = {
+  const mobilePanelVariants: Variants = {
     closed: {
       opacity: 0,
       clipPath: "inset(0 0 100% 0)",
@@ -37,7 +37,7 @@ export default function SiteNavbar() {
     },
   };
 
-  const mobileItemVariants = {
+  const mobileItemVariants: Variants = {
     closed: {
       opacity: 0,
       y: 34,
