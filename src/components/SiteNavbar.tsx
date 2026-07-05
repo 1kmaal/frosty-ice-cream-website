@@ -14,6 +14,46 @@ export default function SiteNavbar() {
   const activeTimerRef = useRef<number | null>(null);
   const switchTimerRef = useRef<number | null>(null);
 
+  const mobilePanelVariants = {
+    closed: {
+      opacity: 0,
+      clipPath: "inset(0 0 100% 0)",
+      transition: {
+        duration: 0.35,
+        ease: "easeIn",
+        staggerChildren: 0.035,
+        staggerDirection: -1,
+      },
+    },
+    open: {
+      opacity: 1,
+      clipPath: "inset(0 0 0% 0)",
+      transition: {
+        duration: 0.55,
+        ease: "easeOut",
+        delayChildren: 0.12,
+        staggerChildren: 0.08,
+      },
+    },
+  };
+
+  const mobileItemVariants = {
+    closed: {
+      opacity: 0,
+      y: 34,
+      rotate: -1.5,
+    },
+    open: {
+      opacity: 1,
+      y: 0,
+      rotate: 0,
+      transition: {
+        duration: 0.42,
+        ease: "easeOut",
+      },
+    },
+  };
+
   const formatNavLabel = (id: string) => {
     if (id === "faq") return "FAQ";
     if (id === "signup") return "Sign Up";
@@ -45,6 +85,15 @@ export default function SiteNavbar() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMobileOpen(false);
+    };
+
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
   }, []);
 
   useEffect(() => {
@@ -111,7 +160,7 @@ export default function SiteNavbar() {
         scrolled ? "shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]" : ""
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-50 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-[#FFF8E1]">
         <div className={`flex items-center justify-between transition-all duration-300 ${scrolled ? "h-14 sm:h-16" : "h-16 sm:h-20"}`}>
           <motion.button
             initial={{ opacity: 0, x: -15 }}
@@ -215,42 +264,81 @@ export default function SiteNavbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3, delay: 0.8 }}
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="xl:hidden flex flex-col gap-1.5 p-2 border-2 border-black"
+            onClick={() => setMobileOpen((open) => !open)}
+            className="xl:hidden flex h-12 w-14 flex-col items-center justify-center gap-1.5 border-2 border-black bg-[#FFF8E1]"
             aria-label="Toggle menu"
+            aria-expanded={mobileOpen}
           >
-            <span className={`block w-6 h-[3px] bg-black transition-transform ${mobileOpen ? "rotate-45 translate-y-[6px]" : ""}`} />
-            <span className={`block w-6 h-[3px] bg-black transition-opacity ${mobileOpen ? "opacity-0" : ""}`} />
-            <span className={`block w-6 h-[3px] bg-black transition-transform ${mobileOpen ? "-rotate-45 -translate-y-[6px]" : ""}`} />
+            <span className={`block h-[3px] w-7 bg-black transition-transform duration-300 ${mobileOpen ? "translate-y-[9px] rotate-45" : ""}`} />
+            <span className={`block h-[3px] w-7 bg-black transition-opacity duration-200 ${mobileOpen ? "opacity-0" : ""}`} />
+            <span className={`block h-[3px] w-7 bg-black transition-transform duration-300 ${mobileOpen ? "-translate-y-[9px] -rotate-45" : ""}`} />
           </motion.button>
         </div>
+      </div>
 
+      <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="xl:hidden border-t-4 border-black py-4 bg-[#FFF8E1] max-h-[calc(100vh-5rem)] overflow-y-auto"
+            key="frosty-staggered-menu"
+            variants={mobilePanelVariants}
+            initial="closed"
+            animate="open"
+            exit="closed"
+            style={{ transformOrigin: "top" }}
+            className={`xl:hidden fixed inset-x-0 bottom-0 z-40 overflow-y-auto border-t-4 border-black bg-[#FFF8E1] ${
+              scrolled ? "top-14 sm:top-16" : "top-16 sm:top-20"
+            }`}
           >
-            <div className="flex flex-col gap-3">
-              {NAV_ITEMS.map((item) => (
-                <button
-                  key={item}
-                  onClick={() => handleNavClick(item)}
-                  className={`text-xs 2xl:text-sm font-bold uppercase tracking-wider py-2 px-1 hover:bg-black/5 transition-colors text-left ${currentActive === item ? "text-black" : "text-black/50"}`}
+            <div className="flex min-h-full flex-col">
+              <div className="border-b-4 border-black px-5 py-5">
+                <motion.p variants={mobileItemVariants} className="text-[10px] font-black uppercase tracking-[0.32em] text-black/45">
+                  Frosty Menu
+                </motion.p>
+              </div>
+
+              <div className="flex-1">
+                {NAV_ITEMS.map((item, index) => {
+                  const isActive = currentActive === item;
+
+                  return (
+                    <motion.button
+                      key={item}
+                      variants={mobileItemVariants}
+                      onClick={() => handleNavClick(item)}
+                      className="group flex w-full items-center justify-between gap-5 border-b-4 border-black px-5 py-6 text-left"
+                    >
+                      <span className="text-[11px] font-black tracking-[0.35em] text-black/35">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <span className={`flex-1 text-4xl font-black uppercase leading-none tracking-tighter sm:text-5xl ${isActive ? "text-black" : "text-black/55"}`}>
+                        {formatNavLabel(item)}
+                      </span>
+                      <span className={`text-3xl font-black transition-transform duration-300 group-hover:translate-x-1 ${isActive ? "text-black" : "text-black/35"}`}>
+                        →
+                      </span>
+                    </motion.button>
+                  );
+                })}
+              </div>
+
+              <div className="grid gap-4 border-t-4 border-black p-5">
+                <motion.button
+                  variants={mobileItemVariants}
+                  onClick={() => handleNavClick("order")}
+                  className="w-full border-2 border-black bg-black px-6 py-5 text-center text-xs font-black uppercase tracking-[0.28em] text-[#FFF8E1]"
                 >
-                  {formatNavLabel(item)}
-                </button>
-              ))}
-              <button
-                onClick={() => handleNavClick("order")}
-                className="bg-black text-[#FFF8E1] px-5 py-3 text-xs font-bold uppercase tracking-widest text-center mt-2"
-              >
-                Order Now
-              </button>
+                  Order Now
+                </motion.button>
+
+                <motion.div variants={mobileItemVariants} className="flex items-center justify-between text-[10px] font-black uppercase tracking-[0.22em] text-black/40">
+                  <span>Small Batch</span>
+                  <span>Made Fresh</span>
+                </motion.div>
+              </div>
             </div>
           </motion.div>
         )}
-      </div>
+      </AnimatePresence>
     </motion.nav>
   );
 }

@@ -322,8 +322,8 @@ function StillNeedHelpSection() {
   const navigate = useNavigate();
 
   return (
-    <section className="bg-white py-20 sm:py-28">
-      <div className="mx-auto max-w-5xl border-4 border-black bg-black px-6 py-14 text-center text-[#FFF8E1] shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] sm:px-10">
+    <section className="overflow-hidden bg-white px-4 py-20 sm:px-6 sm:py-28">
+      <div className="mx-auto max-w-5xl border-4 border-black bg-black px-6 py-14 text-center text-[#FFF8E1] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] sm:px-10 sm:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)]">
         <MessageCircle className="mx-auto h-10 w-10" />
         <h2 className="mt-6 text-4xl font-black uppercase leading-[0.95] tracking-tighter sm:text-6xl">
           Still Need
