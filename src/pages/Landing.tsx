@@ -468,7 +468,7 @@ function FlavorsSection() {
   const [hoveredFlavor, setHoveredFlavor] = useState<string | null>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-  const handleCardEnter = (flavorName: string, e: React.MouseEvent) => {
+  const handleCardEnter = (flavorName: string, e: React.PointerEvent) => {
     setHoveredFlavor(flavorName);
     const section = sectionRef.current;
     if (section) {
@@ -585,32 +585,44 @@ function Flavor3DCard({
   onHoverLeave,
 }: {
   flavor: (typeof FLAVORS)[0];
-  onHoverEnter: (name: string, e: React.MouseEvent) => void;
+  onHoverEnter: (name: string, e: React.PointerEvent) => void;
   onHoverLeave: () => void;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
+
     const rect = cardRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left - rect.width / 2) / 20;
-    const y = (e.clientY - rect.top - rect.height / 2) / 20;
-    cardRef.current.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateY = ((x - centerX) / centerX) * 7;
+    const rotateX = -((y - centerY) / centerY) * 7;
+    const liftX = ((x - centerX) / centerX) * 5;
+    const liftY = ((y - centerY) / centerY) * 5;
+
+    cardRef.current.style.transform = `translate3d(${liftX}px, ${liftY}px, 0) rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
   };
 
-  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handlePointerLeave = () => {
     if (!cardRef.current) return;
-    cardRef.current.style.transform = "rotateY(0deg) rotateX(0deg)";
+    cardRef.current.style.transform = "translate3d(0px, 0px, 0) rotateY(0deg) rotateX(0deg)";
     onHoverLeave();
   };
 
   return (
     <div
       ref={cardRef}
-      onMouseEnter={(e) => onHoverEnter(flavor.name, e)}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className="relative border-2 border-black transition-all duration-500 ease-out cursor-pointer group h-full min-h-[500px] sm:min-h-[560px] 2xl:min-h-[580px] flex flex-col"
+      onPointerEnter={(e) => onHoverEnter(flavor.name, e)}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
+      onPointerUp={handlePointerLeave}
+      onPointerCancel={handlePointerLeave}
+      className="relative border-2 border-black transition-all duration-500 ease-out cursor-pointer group h-full min-h-[500px] sm:min-h-[560px] 2xl:min-h-[580px] flex flex-col touch-pan-y"
       style={{ backgroundColor: flavor.bgColor, transformStyle: "preserve-3d" }}
     >
       {/* Badge */}
