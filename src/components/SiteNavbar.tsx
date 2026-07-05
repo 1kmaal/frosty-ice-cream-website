@@ -262,16 +262,20 @@ export default function SiteNavbar() {
 
           <motion.button
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={{
+              opacity: 1,
+              width: scrolled ? 32 : 40,
+              height: scrolled ? 32 : 40,
+            }}
             transition={{ duration: 0.3, delay: 0.8 }}
             onClick={() => setMobileOpen((open) => !open)}
-            className="xl:hidden flex h-12 w-14 flex-col items-center justify-center gap-1.5 border-2 border-black bg-[#FFF8E1]"
+            className="xl:hidden flex shrink-0 flex-col items-center justify-center gap-1 border-2 border-black bg-[#FFF8E1]"
             aria-label="Toggle menu"
             aria-expanded={mobileOpen}
           >
-            <span className={`block h-[3px] w-7 bg-black transition-transform duration-300 ${mobileOpen ? "translate-y-[9px] rotate-45" : ""}`} />
-            <span className={`block h-[3px] w-7 bg-black transition-opacity duration-200 ${mobileOpen ? "opacity-0" : ""}`} />
-            <span className={`block h-[3px] w-7 bg-black transition-transform duration-300 ${mobileOpen ? "-translate-y-[9px] -rotate-45" : ""}`} />
+            <span className={`block h-[2px] w-5 bg-black transition-transform duration-300 ${mobileOpen ? "translate-y-[6px] rotate-45" : ""}`} />
+            <span className={`block h-[2px] w-5 bg-black transition-opacity duration-200 ${mobileOpen ? "opacity-0" : ""}`} />
+            <span className={`block h-[2px] w-5 bg-black transition-transform duration-300 ${mobileOpen ? "-translate-y-[6px] -rotate-45" : ""}`} />
           </motion.button>
         </div>
       </div>

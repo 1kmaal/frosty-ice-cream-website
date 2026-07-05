@@ -468,7 +468,7 @@ function FlavorsSection() {
   const [hoveredFlavor, setHoveredFlavor] = useState<string | null>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-  const handleCardEnter = (flavorName: string, e: React.PointerEvent) => {
+  const handleCardEnter = (flavorName: string, e: { clientX: number; clientY: number }) => {
     setHoveredFlavor(flavorName);
     const section = sectionRef.current;
     if (section) {
@@ -585,17 +585,18 @@ function Flavor3DCard({
   onHoverLeave,
 }: {
   flavor: (typeof FLAVORS)[0];
-  onHoverEnter: (name: string, e: React.PointerEvent) => void;
+  onHoverEnter: (name: string, e: { clientX: number; clientY: number }) => void;
   onHoverLeave: () => void;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const touchActiveRef = useRef(false);
 
-  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+  const applyCardMotion = (clientX: number, clientY: number) => {
     if (!cardRef.current) return;
 
     const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
 
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
@@ -605,23 +606,110 @@ function Flavor3DCard({
     const liftX = ((x - centerX) / centerX) * 5;
     const liftY = ((y - centerY) / centerY) * 5;
 
+    cardRef.current.style.transition = "transform 120ms ease-out";
     cardRef.current.style.transform = `translate3d(${liftX}px, ${liftY}px, 0) rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
   };
 
-  const handlePointerLeave = () => {
+  const resetCardMotion = () => {
     if (!cardRef.current) return;
+
+    cardRef.current.style.transition = "transform 500ms ease-out";
     cardRef.current.style.transform = "translate3d(0px, 0px, 0) rotateY(0deg) rotateX(0deg)";
     onHoverLeave();
+  };
+
+  useEffect(() => {
+    const handleGlobalTouchEnd = () => {
+      if (!touchActiveRef.current) return;
+      touchActiveRef.current = false;
+      resetCardMotion();
+    };
+
+    window.addEventListener("touchend", handleGlobalTouchEnd, { passive: true });
+
+    return () => {
+      window.removeEventListener("touchend", handleGlobalTouchEnd);
+    };
+  }, []);
+
+  const handlePointerEnter = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== "mouse") return;
+    onHoverEnter(flavor.name, e);
+  };
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType === "touch" || e.pointerType === "pen") {
+      touchActiveRef.current = true;
+
+      try {
+        e.currentTarget.setPointerCapture(e.pointerId);
+      } catch {
+        // Some browsers may ignore pointer capture during scroll gestures.
+      }
+    }
+
+    onHoverEnter(flavor.name, e);
+    applyCardMotion(e.clientX, e.clientY);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    onHoverEnter(flavor.name, e);
+    applyCardMotion(e.clientX, e.clientY);
+  };
+
+  const handlePointerLeave = () => {
+    if (touchActiveRef.current) return;
+    resetCardMotion();
+  };
+
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType === "touch" || e.pointerType === "pen") {
+      touchActiveRef.current = false;
+
+      try {
+        e.currentTarget.releasePointerCapture(e.pointerId);
+      } catch {
+        // Ignore release errors.
+      }
+    }
+
+    resetCardMotion();
+  };
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    const touch = e.touches[0];
+    if (!touch) return;
+
+    touchActiveRef.current = true;
+    onHoverEnter(flavor.name, touch);
+    applyCardMotion(touch.clientX, touch.clientY);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    const touch = e.touches[0];
+    if (!touch) return;
+
+    touchActiveRef.current = true;
+    onHoverEnter(flavor.name, touch);
+    applyCardMotion(touch.clientX, touch.clientY);
+  };
+
+  const handleTouchEnd = () => {
+    touchActiveRef.current = false;
+    resetCardMotion();
   };
 
   return (
     <div
       ref={cardRef}
-      onPointerEnter={(e) => onHoverEnter(flavor.name, e)}
+      onPointerEnter={handlePointerEnter}
+      onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
-      onPointerUp={handlePointerLeave}
-      onPointerCancel={handlePointerLeave}
+      onPointerUp={handlePointerUp}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
       className="relative border-2 border-black transition-all duration-500 ease-out cursor-pointer group h-full min-h-[500px] sm:min-h-[560px] 2xl:min-h-[580px] flex flex-col touch-pan-y"
       style={{ backgroundColor: flavor.bgColor, transformStyle: "preserve-3d" }}
     >
@@ -672,44 +760,26 @@ function Flavor3DCard({
           >
             {flavor.name}
           </h3>
-          <p
-            className="mt-2 min-h-[44px] text-[11px] font-bold uppercase tracking-wider leading-[1.35]"
-            style={{ color: flavor.color, opacity: 0.6 }}
-          >
+          <p className="mt-2 text-xs sm:text-sm font-semibold text-black/60 leading-relaxed">
             {flavor.tagline}
           </p>
         </div>
 
-        {/* Star rating decoration */}
-        <div className="flex gap-0.5 mb-4">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Star key={i} className="w-3 h-3 fill-black text-black" />
-          ))}
-        </div>
-
-        <p className="text-sm leading-relaxed mb-5 text-black/70 flex-1">
+        <p className="mb-4 min-h-[72px] text-xs sm:text-sm text-black/50 leading-relaxed flex-1">
           {flavor.description}
         </p>
 
-        {/* Price and CTA */}
-        <div className="flex items-end justify-between border-t-2 border-black/10 pt-5 mt-auto gap-4">
-          <div>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-black/40 mb-1">Starting at</p>
-            <span
-              className="text-xl sm:text-2xl font-black tracking-tight"
-              style={{ color: flavor.color }}
-            >
-              {flavor.price}
-            </span>
-          </div>
+        <div className="mt-auto pt-4 border-t-2 border-black/10 flex items-center justify-between gap-3">
+          <span className="text-xl sm:text-2xl font-black" style={{ color: flavor.color }}>
+            {flavor.price}
+          </span>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => triggerFrostyTransition("Order", "/order")}
-            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider bg-black text-[#FFF8E1] px-5 py-3 border-2 border-black hover:bg-black/90 transition-all shrink-0"
+            className="px-4 py-2 bg-black text-[#FFF8E1] text-xs font-bold uppercase tracking-wider"
           >
             Order
-            <ArrowRight className="w-3.5 h-3.5" />
           </motion.button>
         </div>
       </div>
