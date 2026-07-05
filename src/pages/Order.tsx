@@ -38,7 +38,7 @@ const FLAVORS = [
     price: 5.99,
     color: "#5A2418",
     bgColor: "#F4E4DF",
-    image: "/flavors/velvet-chocolate.png",
+    image: `${import.meta.env.BASE_URL}flavors/velvet-chocolate.png`,
     badge: "Bestseller",
   },
   {
@@ -48,7 +48,7 @@ const FLAVORS = [
     price: 5.49,
     color: "#6D4C41",
     bgColor: "#FFF8E1",
-    image: "/flavors/vanilla-dream.png",
+    image: `${import.meta.env.BASE_URL}flavors/vanilla-dream.png`,
     badge: "Classic",
   },
   {
@@ -58,7 +58,7 @@ const FLAVORS = [
     price: 5.69,
     color: "#880E4F",
     bgColor: "#FCE4EC",
-    image: "/flavors/strawberry-bliss.png",
+    image: `${import.meta.env.BASE_URL}flavors/strawberry-bliss.png`,
     badge: "Seasonal",
   },
   {
@@ -68,7 +68,7 @@ const FLAVORS = [
     price: 5.79,
     color: "#1B5E20",
     bgColor: "#E8F5E9",
-    image: "/flavors/mint-eclipse.png",
+    image: `${import.meta.env.BASE_URL}flavors/mint-eclipse.png`,
     badge: "Fan Favorite",
   },
   {
@@ -78,7 +78,7 @@ const FLAVORS = [
     price: 5.89,
     color: "#263238",
     bgColor: "#ECEFF1",
-    image: "/flavors/cookies-and-cream.png",
+    image: `${import.meta.env.BASE_URL}flavors/cookies-and-cream.png`,
     badge: "New",
   },
 ];
